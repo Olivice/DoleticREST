@@ -123,16 +123,21 @@ class User extends BaseUser
     /**
      * @var ConsultantMembership
      *
-     * @ORM\OneToOne(targetEntity="RHBundle\Entity\ConsultantMembership", mappedBy="user"))
+     * @ORM\OneToOne(targetEntity="RHBundle\Entity\ConsultantMembership", mappedBy="user", fetch="EXTRA_LAZY")
      */
     private $consultantMembership;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="RHBundle\Entity\AdministratorMembership", mappedBy="user"))
+     * @ORM\OneToMany(targetEntity="RHBundle\Entity\AdministratorMembership", mappedBy="user", fetch="EXTRA_LAZY")
      */
     private $administratorMemberships;
+
+    /**
+     * @var string
+     */
+    private $fullName;
 
     /**
      * Get id
@@ -444,13 +449,21 @@ class User extends BaseUser
     }
 
     /**
-     * Get full name
-     *
      * @return string
      */
     public function getFullName()
     {
-        return $this->firstName . ' ' . $this->lastName;
+        return $this->fullName;
+    }
+
+    /**
+     * @param string $fullName
+     * @return User
+     */
+    public function setFullName($fullName)
+    {
+        $this->fullName = $fullName;
+        return $this;
     }
 
 }

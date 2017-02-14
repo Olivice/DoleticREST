@@ -104,6 +104,13 @@ class Contact
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="next_prospecting", type="datetime", nullable=true)
+     */
+    private $nextProspecting;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creationDate;
@@ -153,9 +160,14 @@ class Contact
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="ContactAction", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="ContactAction", mappedBy="contact", fetch="EXTRA_LAZY")
      */
     private $actions;
+
+    /**
+     * @var string
+     */
+    private $fullName;
 
 
     /**
@@ -212,16 +224,6 @@ class Contact
     public function getLastName()
     {
         return $this->lastName;
-    }
-
-    /**
-     * Get full name
-     *
-     * @return string
-     */
-    public function getFullName()
-    {
-        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -337,6 +339,25 @@ class Contact
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNextProspecting()
+    {
+        return $this->nextProspecting;
+    }
+
+    /**
+     * @param mixed $nextProspecting
+     * @return Contact
+     */
+    public function setNextProspecting($nextProspecting)
+    {
+        $this->nextProspecting = $nextProspecting;
+
+        return $this;
     }
 
     /**
@@ -571,6 +592,25 @@ class Contact
     public function setActions($actions)
     {
         $this->actions = $actions;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * @param string $fullName
+     * @return Contact
+     */
+    public function setFullName($fullName)
+    {
+        $this->fullName = $fullName;
 
         return $this;
     }
