@@ -2,6 +2,7 @@
 
 namespace RHBundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\ORM\Mapping as ORM;
 use KernelBundle\Entity\Division;
 use KernelBundle\Entity\User;
@@ -34,6 +35,7 @@ class Team
     /**
      * @var \DateTime
      *
+     * @SerializedName("creationDate")
      * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creationDate;

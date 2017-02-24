@@ -18,6 +18,7 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use UABundle\Entity\Project;
 use UABundle\Entity\ProjectField;
+use UABundle\Entity\ProjectManager;
 use UABundle\Entity\ProjectOrigin;
 use UABundle\Entity\ProjectStatus;
 use UABundle\Form\ProjectType;
@@ -303,6 +304,122 @@ class ProjectController extends FOSRestController
     }
 
     /**
+     * Get all active projects that are yet to be signed
+     * @return array
+     *
+     * @ApiDoc(
+     *  section="Project",
+     *  description="Get all active projects that are yet to be signed",
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "ua" = "#0033ff",
+     *   "guest" = "#85d893"
+     *  }
+     * )
+     *
+     * @View()
+     * @Get("/projects/unsigned")
+     */
+    public function getUnsignedProjectsAction()
+    {
+
+        $projects = $this->getDoctrine()->getRepository("UABundle:Project")
+            ->findUnsigned();
+
+        return array('projects' => $projects);
+    }
+
+    /**
+     * Get all active projects that are currently being implemented
+     * @return array
+     *
+     * @ApiDoc(
+     *  section="Project",
+     *  description="Get all active projects that are currently being implemented",
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "ua" = "#0033ff",
+     *   "guest" = "#85d893"
+     *  }
+     * )
+     *
+     * @View()
+     * @Get("/projects/current")
+     */
+    public function getCurrentProjectsAction()
+    {
+
+        $projects = $this->getDoctrine()->getRepository("UABundle:Project")
+            ->findCurrent();
+
+        return array('projects' => $projects);
+    }
+
+    /**
+     * Get all disabled projects
+     * @return array
+     *
+     * @ApiDoc(
+     *  section="Project",
+     *  description="Get all disabled projects",
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "ua" = "#0033ff",
+     *   "guest" = "#85d893"
+     *  }
+     * )
+     *
+     * @View()
+     * @Get("/projects/disabled")
+     */
+    public function getDisabledProjectsAction()
+    {
+
+        $projects = $this->getDoctrine()->getRepository("UABundle:Project")
+            ->findBy(['disabled' => true]);
+
+        return array('projects' => $projects);
+    }
+
+    /**
+     * Get all archived and enabled projects
+     * @return array
+     *
+     * @ApiDoc(
+     *  section="Project",
+     *  description="Get all archived and enabled projects",
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "ua" = "#0033ff",
+     *   "guest" = "#85d893"
+     *  }
+     * )
+     *
+     * @View()
+     * @Get("/projects/archived")
+     */
+    public function getArchivedProjectsAction()
+    {
+
+        $projects = $this->getDoctrine()->getRepository("UABundle:Project")
+            ->findBy(['archived' => true, 'disabled' => false]);
+
+        return array('projects' => $projects);
+    }
+
+    /**
      * Get a project by ID
      * @param Project $project
      * @return array
@@ -391,6 +508,8 @@ class ProjectController extends FOSRestController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $currentAsManager = $form['currentAsManager']->getData();
+
             $em = $this->getDoctrine()->getManager();
             $project
                 ->setDisabled(false)
@@ -400,6 +519,15 @@ class ProjectController extends FOSRestController
                 ->setAdvance(0)
                 ->setRebilledFee(0);
             $em->persist($project);
+
+            if ($currentAsManager) {
+                $manager = new ProjectManager();
+                $manager
+                    ->setManager($this->getUser())
+                    ->setProject($project);
+                $em->persist($manager);
+                $project->setManagers([$manager]);
+            }
             $em->flush();
 
             return array("project" => $project);
@@ -609,7 +737,8 @@ class ProjectController extends FOSRestController
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $project->setDisabled(true)->setDisabledSince(new \DateTime());
-            if ($project->getDisabledSince() > $project->getDisabledUntil()) {
+            $until = $project->getDisabledUntil();
+            if (isset($until) && $project->getDisabledSince() > $until) {
                 return ["error" => "Date invalide."];
             }
             $em->persist($project);

@@ -2,6 +2,7 @@
 
 namespace UABundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use KernelBundle\Entity\User;
@@ -48,6 +49,7 @@ class Consultant
     /**
      * @var int
      *
+     * @SerializedName("jehAssigned")
      * @ORM\Column(name="jeh_assigned", type="integer")
      */
     private $jehAssigned;
@@ -55,6 +57,7 @@ class Consultant
     /**
      * @var int
      *
+     * @SerializedName("payByJeh")
      * @ORM\Column(name="pay_by_jeh", type="integer")
      */
     private $payByJeh;

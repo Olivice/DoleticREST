@@ -2,6 +2,7 @@
 
 namespace UABundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -54,6 +55,7 @@ class Task
     /**
      * @var int
      *
+     * @SerializedName("jehAmount")
      * @ORM\Column(name="jeh_amount", type="integer")
      */
     private $jehAmount;
@@ -61,6 +63,7 @@ class Task
     /**
      * @var int
      *
+     * @SerializedName("jehCost")
      * @ORM\Column(name="jeh_cost", type="integer")
      */
     private $jehCost;
@@ -68,6 +71,7 @@ class Task
     /**
      * @var \DateTime
      *
+     * @SerializedName("startDate")
      * @ORM\Column(name="start_date", type="date")
      */
     private $startDate;
@@ -75,6 +79,7 @@ class Task
     /**
      * @var \DateTime
      *
+     * @SerializedName("endDate")
      * @ORM\Column(name="end_date", type="date")
      */
     private $endDate;

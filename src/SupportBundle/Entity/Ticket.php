@@ -2,6 +2,7 @@
 
 namespace SupportBundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\ORM\Mapping as ORM;
 use KernelBundle\Entity\User;
 
@@ -68,6 +69,7 @@ class Ticket
     /**
      * @var \DateTime
      *
+     * @SerializedName("archivedSince")
      * @ORM\Column(name="archived_since", type="datetime", nullable=true)
      */
     private $archivedSince;
@@ -75,6 +77,7 @@ class Ticket
     /**
      * @var \DateTime
      *
+     * @SerializedName("creationDate")
      * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creationDate;

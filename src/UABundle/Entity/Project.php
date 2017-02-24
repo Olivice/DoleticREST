@@ -2,6 +2,7 @@
 
 namespace UABundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GRCBundle\Entity\Firm;
@@ -49,6 +50,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("signDate")
      * @ORM\Column(name="sign_date", type="date", nullable=true)
      */
     private $signDate;
@@ -56,6 +58,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("endDate")
      * @ORM\Column(name="end_date", type="date", nullable=true)
      */
     private $endDate;
@@ -63,6 +66,7 @@ class Project
     /**
      * @var int
      *
+     * @SerializedName("managementFee")
      * @ORM\Column(name="management_fee", type="integer")
      */
     private $managementFee;
@@ -70,6 +74,7 @@ class Project
     /**
      * @var int
      *
+     * @SerializedName("applicationFee")
      * @ORM\Column(name="application_fee", type="integer")
      */
     private $applicationFee;
@@ -77,6 +82,7 @@ class Project
     /**
      * @var int
      *
+     * @SerializedName("rebilledFee")
      * @ORM\Column(name="rebilled_fee", type="integer")
      */
     private $rebilledFee;
@@ -91,6 +97,7 @@ class Project
     /**
      * @var int
      *
+     * @SerializedName("expectedDuration")
      * @ORM\Column(name="expected_duration", type="integer", nullable=true)
      */
     private $expectedDuration;
@@ -112,6 +119,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("creationDate")
      * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creationDate;
@@ -119,6 +127,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("lastUpdate")
      * @ORM\Column(name="last_update", type="datetime")
      */
     private $lastUpdate;
@@ -133,6 +142,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("disabledSince")
      * @ORM\Column(name="disabled_since", type="datetime", nullable=true)
      */
     private $disabledSince;
@@ -140,6 +150,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("disabledUntil")
      * @ORM\Column(name="disabled_until", type="datetime", nullable=true)
      */
     private $disabledUntil;
@@ -154,6 +165,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @SerializedName("archivedSince")
      * @ORM\Column(name="archived_since", type="datetime", nullable=true)
      */
     private $archivedSince;
@@ -175,7 +187,7 @@ class Project
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="ProjectManager", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="ProjectManager", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      *
      */
     private $managers;
@@ -183,15 +195,15 @@ class Project
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="ProjectContact", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="ProjectContact", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      *
      */
     private $contacts;
 
     /**
-     * @var ArrayCollection
+     * @var array
      *
-     * @ORM\OneToMany(targetEntity="Consultant", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Consultant", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     private $consultants;
 
@@ -217,32 +229,39 @@ class Project
     private $status;
 
     /**
-     * @var ArrayCollection
+     * @var array
      *
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     private $tasks;
 
     /**
-     * @var ArrayCollection
+     * @var array
      *
-     * @ORM\OneToMany(targetEntity="Amendment", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Amendment", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     private $amendments;
 
     /**
-     * @var ArrayCollection
+     * @var array
      *
-     * @ORM\OneToMany(targetEntity="ProjectDocument", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="ProjectDocument", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     private $documents;
 
     /**
-     * @var ArrayCollection
+     * @var array
      *
-     * @ORM\OneToMany(targetEntity="ProjectFile", mappedBy="project", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="ProjectFile", mappedBy="project", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     private $files;
+
+    /**
+     * @var boolean
+     *
+     * @SerializedName("userHasRights")
+     */
+    private $userHasRights;
 
     /**
      * Get id
@@ -928,6 +947,25 @@ class Project
     public function setFiles($files)
     {
         $this->files = $files;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getUserHasRights()
+    {
+        return $this->userHasRights;
+    }
+
+    /**
+     * @param boolean $userHasRights
+     * @return Project
+     */
+    public function setUserHasRights($userHasRights)
+    {
+        $this->userHasRights = $userHasRights;
 
         return $this;
     }

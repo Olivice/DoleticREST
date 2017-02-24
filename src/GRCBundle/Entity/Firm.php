@@ -2,6 +2,7 @@
 
 namespace GRCBundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\ORM\Mapping as ORM;
 use KernelBundle\Entity\Country;
 
@@ -46,6 +47,7 @@ class Firm
     /**
      * @var string
      *
+     * @SerializedName("postalCode")
      * @ORM\Column(name="postal_code", type="string", length=255, nullable=true)
      */
     private $postalCode;
@@ -60,6 +62,7 @@ class Firm
     /**
      * @var \DateTime
      *
+     * @SerializedName("lastContact")
      * @ORM\Column(name="last_contact", type="datetime", nullable=true)
      */
     private $lastContact;

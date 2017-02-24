@@ -2,6 +2,7 @@
 
 namespace KernelBundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +47,7 @@ abstract class MailingList
     /**
      * @var string
      *
+     * @SerializedName("ownerEmail")
      * @ORM\Column(name="owner_email", type="string", length=255)
      */
     private $ownerEmail;
@@ -53,6 +55,7 @@ abstract class MailingList
     /**
      * @var string
      *
+     * @SerializedName("replyTo")
      * @ORM\Column(name="reply_to", type="string", length=255, nullable=true)
      */
     private $replyTo;
@@ -60,6 +63,7 @@ abstract class MailingList
     /**
      * @var boolean
      *
+     * @SerializedName("moderatorMessage")
      * @ORM\Column(name="moderator_message", type="boolean")
      */
     private $moderatorMessage;
@@ -67,6 +71,7 @@ abstract class MailingList
     /**
      * @var boolean
      *
+     * @SerializedName("subscribeByModerator")
      * @ORM\Column(name="subscribe_by_moderator", type="boolean")
      */
     private $subscribeByModerator;
@@ -74,6 +79,7 @@ abstract class MailingList
     /**
      * @var boolean
      *
+     * @SerializedName("usersPostOnly")
      * @ORM\Column(name="users_post_only", type="boolean")
      */
     private $usersPostOnly;
@@ -81,6 +87,7 @@ abstract class MailingList
     /**
      * @var boolean
      *
+     * @SerializedName("includePersonal")
      * @ORM\Column(name="include_personal", type="boolean")
      */
     private $includePersonal;

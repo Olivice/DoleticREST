@@ -2,6 +2,7 @@
 
 namespace UABundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -53,6 +54,7 @@ class Delivery
     /**
      * @var \DateTime
      *
+     * @SerializedName("deliveryDate")
      * @ORM\Column(name="delivery_date", type="date", nullable=true)
      */
     private $deliveryDate;
@@ -74,6 +76,7 @@ class Delivery
     /**
      * @var \DateTime
      *
+     * @SerializedName("paymentDate")
      * @ORM\Column(name="payment_date", type="date", nullable=true)
      */
     private $paymentDate;

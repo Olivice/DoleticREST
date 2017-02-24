@@ -2,6 +2,7 @@
 
 namespace KernelBundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +26,7 @@ class UserPosition
     /**
      * @var \DateTime
      *
+     * @SerializedName("startDate")
      * @ORM\Column(name="start_date", type="datetime")
      */
     private $startDate;
@@ -46,6 +48,7 @@ class UserPosition
     /**
      * @var \DateTime
      *
+     * @SerializedName("endDate")
      * @ORM\Column(name="end_date", type="datetime", nullable=true)
      */
     private $endDate;

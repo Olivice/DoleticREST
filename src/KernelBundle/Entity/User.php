@@ -2,6 +2,7 @@
 
 namespace KernelBundle\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
@@ -39,6 +40,7 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @SerializedName("firstName")
      * @ORM\Column(name="first_name", type="string", length=255)
      */
     private $firstName;
@@ -46,6 +48,7 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @SerializedName("lastName")
      * @ORM\Column(name="last_name", type="string", length=255)
      */
     private $lastName;
@@ -53,6 +56,7 @@ class User extends BaseUser
     /**
      * @var \DateTime
      *
+     * @SerializedName("birthDate")
      * @ORM\Column(name="birth_date", type="date", nullable=true)
      */
     private $birthDate;
@@ -81,6 +85,7 @@ class User extends BaseUser
     /**
      * @var int
      *
+     * @SerializedName("postalCode")
      * @ORM\Column(name="postal_code", type="integer", nullable=true)
      */
     private $postalCode;
@@ -88,6 +93,7 @@ class User extends BaseUser
     /**
      * @var SchoolYear
      *
+     * @SerializedName("schoolYear")
      * @ORM\ManyToOne(targetEntity="RHBundle\Entity\SchoolYear")
      */
     private $schoolYear;
@@ -116,6 +122,7 @@ class User extends BaseUser
     /**
      * @var RecruitmentEvent
      *
+     * @SerializedName("recruitmentEvent")
      * @ORM\ManyToOne(targetEntity="RHBundle\Entity\RecruitmentEvent")
      */
     private $recruitmentEvent;
@@ -123,6 +130,7 @@ class User extends BaseUser
     /**
      * @var ConsultantMembership
      *
+     * @SerializedName("consultantMembership")
      * @ORM\OneToOne(targetEntity="RHBundle\Entity\ConsultantMembership", mappedBy="user", fetch="EXTRA_LAZY")
      */
     private $consultantMembership;
@@ -130,14 +138,24 @@ class User extends BaseUser
     /**
      * @var ArrayCollection
      *
+     * @SerializedName("administratorMemberships")
      * @ORM\OneToMany(targetEntity="RHBundle\Entity\AdministratorMembership", mappedBy="user", fetch="EXTRA_LAZY")
      */
     private $administratorMemberships;
 
     /**
      * @var string
+     *
+     * @SerializedName("fullName")
      */
     private $fullName;
+
+    /**
+     * @var Position
+     *
+     * @SerializedName("mainPosition")
+     */
+    private $mainPosition;
 
     /**
      * Get id
@@ -463,6 +481,26 @@ class User extends BaseUser
     public function setFullName($fullName)
     {
         $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMainPosition()
+    {
+        return $this->mainPosition;
+    }
+
+    /**
+     * @param mixed $mainPosition
+     * @return User
+     */
+    public function setMainPosition($mainPosition)
+    {
+        $this->mainPosition = $mainPosition;
+
         return $this;
     }
 
