@@ -2,12 +2,12 @@
 
 namespace UABundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProjectStatusType extends AbstractType
+class PublishProjectDocumentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,8 +16,11 @@ class ProjectStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', TextType::class)
-            ->add('detail', TextType::class);
+            ->add('template', EntityType::class, ['class' => 'UABundle\Entity\ProjectDocumentTemplate', 'required' => true])
+            ->add('project', EntityType::class, ['class' => 'UABundle\Entity\Project', 'required' => true])
+            ->add('manager', EntityType::class, ['class' => 'UABundle\Entity\ProjectManager', 'required' => true])
+            ->add('contact', EntityType::class, ['class' => 'UABundle\Entity\ProjectContact', 'required' => true])
+            ->add('consultant', EntityType::class, ['class' => 'UABundle\Entity\Consultant', 'required' => true]);
     }
 
     /**
@@ -27,7 +30,6 @@ class ProjectStatusType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'UABundle\Entity\ProjectStatus',
             'allow_extra_fields' => true
         ));
     }
